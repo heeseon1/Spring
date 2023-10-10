@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.board.entity.Board;
@@ -43,8 +46,8 @@ public class BoardService {
 	   }
 
 	
-	public List<Board> boardList(){
-		return boardRepository.findAll();
+	public Page<Board> boardList(Pageable pageable){
+		return boardRepository.findAll(pageable);
 	}
 	
 	public Board boardView(Integer id) {
@@ -54,5 +57,21 @@ public class BoardService {
 	public void boardDelete(Integer id) {
 		boardRepository.deleteById(id);
 	}
+	
+	
+    public void boardViewCount(Integer id) {
+		
+        Board board = boardRepository.findById(id).orElse(null);
+        
+        if (board != null) {
+            board.setViewCount(board.getViewCount() + 1);
+            boardRepository.save(board);
+        }
+    }
+    
+    
+    public Page<Board> boardSearchList(String searchKeyword, Pageable pageable){
+    	return boardRepository.findByTitleContaining(searchKeyword, pageable);
+    }
 
 }
