@@ -9,7 +9,28 @@
 		margin: 0 auto;
 		margin-top: 40px;
 	}
+	.like{
+		width : 100px;
+		height : 30px;
+		display : flex;
+		justify-content : center;
+	}
+	.heart{
+		width : 30px;
+		height : 30px;
+		background-color: #ccc;
+	}
+	.on{
+		background-color: #ff7979;
+	}
+	.off{
+		opacity : 0.8;
+	}
 </style>
+
+
+
+
 </head>
 <body>
 	<div class="layout">
@@ -19,6 +40,8 @@
 				<tr>
 					<th>글 번호</th>
 					<th>글 제목</th>
+					<th>조회수</th>
+					<th>좋아요</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -28,19 +51,47 @@
 						<a th:text="${board.title}"
 							th:href="@{/board/view(id=${board.id})}">제목</a>	
 					</td>
+					<td th:text="${board.viewcount}">0</td>
+					<td class="like">
+						<div class="heart" th:text="${board.heart}"></div>
+					</td>
 				</tr>
 			</tbody>
 		</table>
+		
+		<a th:href="@{/board/list(page=0)}">첫 페이지</a>
 		
 		<th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
 			<a th:if="${page != nowPage}" th:href="@{/board/list(page=${page-1},
 			searchKeyword = ${param.searchKeyword})}" th:text="${page}"></a>
 			<strong th:if="${page == nowPage}" th:text="${page}" style="color: red;"></strong>
 		</th:block>
+		
+		<a th:href="@{/board/list(page=${totalPage-1})}">마지막 페이지</a>
+		
 		<form th:action="@{/board/list}" method="get">
 			<input type="text" name="searchKeyword">
 			<button type="submit"> 검색 </button>
 		</form>
+		
+		<p>총 게시물 수는 <span th:text="${list.getTotalElements()}"></span>이다!</p>
+		
+		<script>
+		    window.onpageshow = function(event) {
+		        if (event.persisted) {
+		            window.location.reload();
+		        }
+		    };
+		</script>
+		
+		<script>
+			let indic = document.querySelectorAll('.heart');
+			indic.forEach((el) => {
+				el.classList.add((el.innerHTML === 'true') ? 'on' : 'off');
+				el.innerHTML = ' ';
+			});
+		</script>
+
 	</div>
 </body>
 </html>

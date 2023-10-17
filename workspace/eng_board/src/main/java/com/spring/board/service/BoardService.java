@@ -1,6 +1,7 @@
 package com.spring.board.service;
 
 import java.io.File;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -64,11 +65,21 @@ public class BoardService {
         Board board = boardRepository.findById(id).orElse(null);
         
         if (board != null) {
-            board.setViewCount(board.getViewCount() + 1);
+            board.setViewcount(board.getViewcount() + 1);
             boardRepository.save(board);
         }
     }
     
+    public void heartSave(Integer id) {
+    	Board board = boardRepository.findById(id).orElse(null);
+    	if (board != null) {
+    		boolean currentHeart = board.getHeart();
+    		board.setHeart(!currentHeart);
+    		boardRepository.save(board);
+    	}
+    	
+    }
+
     
     public Page<Board> boardSearchList(String searchKeyword, Pageable pageable){
     	return boardRepository.findByTitleContaining(searchKeyword, pageable);
