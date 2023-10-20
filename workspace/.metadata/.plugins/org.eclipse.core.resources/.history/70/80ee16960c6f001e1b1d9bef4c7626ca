@@ -4,7 +4,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.PublicKey;
-import java.time.LocalDateTime;
 
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,7 +92,6 @@ public class BoardController {
 	   public String boardWritePro(Board board, Model model, MultipartFile file)throws Exception {
 	      
 		  board.setViewcount(0);
-		  board.setCreateDate(LocalDateTime.now());
 	      boardService.write(board, file);
 	      
 	      model.addAttribute("message", "글 작성이 완료 되었습니다.");
@@ -110,7 +108,6 @@ public class BoardController {
 	      
 	      boardTemp.setTitle(board.getTitle());
 	      boardTemp.setContent(board.getContent());
-	      boardTemp.setModifyDate(LocalDateTime.now());
 	      
 	      boardService.write(boardTemp, file);
 	      

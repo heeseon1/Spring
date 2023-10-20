@@ -33,7 +33,7 @@ public class Board {
 		@Column(name = "create_date", nullable = true)
 		private LocalDateTime createDate;
 		
-		@Column(name = "modify_date", nullable = true)
+		@Column(name = "modify_date", nullable = false)
 		private LocalDateTime modifyDate;
 		
 }

@@ -29,6 +29,7 @@
 		<input name="title" type="text">
 		<textarea name="content"></textarea>
 		<input type="file" name="file">
+		<a href="@{/board/delete(id=${board.id})}">글 삭제</a>
 		<button type="submit"> 작성 </button>
 	</form>
 </div>

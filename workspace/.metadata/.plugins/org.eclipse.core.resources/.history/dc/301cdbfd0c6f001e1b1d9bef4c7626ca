@@ -30,10 +30,12 @@ public class Board {
 		private Integer viewcount;
 		private Boolean heart;
 		
-		@Column(name = "create_date", nullable = true)
-		private LocalDateTime createDate;
+		@CreationTimestamp
+			@Column(name = "create_date", nullable = false)
+			private LocalDateTime createDate;
 		
-		@Column(name = "modify_date", nullable = true)
-		private LocalDateTime modifyDate;
+			@UpdateTimestamp
+			@Column(name = "modify_date", nullable = false)
+			private LocalDateTime modifyDate;
 		
 }
